@@ -6,7 +6,7 @@ describe("Register, Login, Logout, Recovery ", () => {
     Cypress.env("email", "hagleyson@hagleyson.com.com.br");
     Cypress.env("password", "1234");
   });
-  it("must register in the system", () => {
+  it.skip("must register in the system", () => {
     cy.visit("registration");
     cy.get(":nth-child(1) > .sc-hKwDye").type(Cypress.env("name"));
     cy.get(":nth-child(2) > .sc-hKwDye").type(Cypress.env("email"));
@@ -18,7 +18,7 @@ describe("Register, Login, Logout, Recovery ", () => {
       expect(resp.status).be.eq(200);
     });
   });
-  it("when you have e-mail registered in the system", () => {
+  it.skip("when you have e-mail registered in the system", () => {
     cy.visit("registration");
     cy.get(":nth-child(1) > .sc-hKwDye").type(Cypress.env("name"));
     cy.get(":nth-child(2) > .sc-hKwDye").type(Cypress.env("email"));
@@ -30,8 +30,16 @@ describe("Register, Login, Logout, Recovery ", () => {
       expect(resp.status).be.eq(400);
     });
   });
-
-  it("must enter the system", () => {
+  it("using invalid values ​​for login", () => {
+    cy.visit("/");
+    cy.get(".sc-iqseJM > .sc-iCfMLu").click();
+    cy.get(":nth-child(1) > span").should(
+      "include.text",
+      "Email é Obrigatório!"
+    );
+    cy.get(":nth-child(2) > span").should("include.text", "senha!");
+  });
+  it.skip("must enter the system", () => {
     cy.visit("/");
     cy.get(":nth-child(1) > .sc-hKwDye").type(Cypress.env("email"));
     cy.get(":nth-child(2) > .sc-hKwDye").type(Cypress.env("password"));
@@ -45,13 +53,13 @@ describe("Register, Login, Logout, Recovery ", () => {
     cy.url().should("include", "/home");
   });
 
-  it("must exit the system", () => {
+  it.skip("must exit the system", () => {
     cy.get(":nth-child(2) > .sc-gKclnd").click();
     cy.get(".swal2-confirm").click();
     cy.url().should("include", "/login");
   });
 
-  it("must reset password", () => {
+  it.skip("must reset password", () => {
     cy.visit("/resetPassword");
     cy.get(".sc-hKwDye").type(Cypress.env("email"));
     cy.server();
